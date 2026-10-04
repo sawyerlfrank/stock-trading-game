@@ -16,6 +16,8 @@ public class Main {
         int stockOwned = 0;
         int day = 1;
         boolean skip = false;
+        int stockTrend = 0;
+        int trendDirection = 0;
 
         // Getting username from input
         System.out.println("Enter username: ");
@@ -24,8 +26,26 @@ public class Main {
         //Beginning of main game loop
         System.out.println("Welcome to the Stock Trade " + username + "!");
         while (!endProgram) {
-            //Stock price randomizer, from -10 up to +10 each day
-            stockPrice += rand.nextInt(-10,11);
+            //Stock price randomizer, from -5 up to +5 each day
+            stockPrice += rand.nextInt(-5,6);
+
+            //Random stock trend simulation
+            if (stockTrend == 0){
+                trendDirection = rand.nextInt(-1,2);
+
+                if (trendDirection != 0) {
+                    stockTrend = rand.nextInt(1, 5);
+                }
+            }
+
+            //Adjust stock price based on trend
+            stockPrice += trendDirection * rand.nextInt(0,11);
+            if (stockTrend > 0) {
+                stockTrend--;
+            }
+            if (stockTrend == 0){
+                trendDirection = 0;
+            }
 
             //Basic info printed for the player to see
             System.out.println("Balance: " + balance);
@@ -50,7 +70,7 @@ public class Main {
                     //Stock selling call
                     System.out.println("Number of stock to sell: ");
                     int stockSell = scanner.nextInt();
-                    if (stockOwned >= stockSell) {
+                    if (stockSell > 0 && stockOwned >= stockSell) {
                         stockOwned -= stockSell;
                         balance += stockSell * stockPrice;
                     }
