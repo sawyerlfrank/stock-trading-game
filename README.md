@@ -6,7 +6,7 @@ The goal of the game is to make as much money as possible using the market fluct
 ## I plan to continue working on this project, here is a list of potential future changes:
 - [ ] Restructure code into methods
 - [ ] Make the stock price changing more interesting (spikes, dips, market trends, etc.)
-- [ ] Implement dynamic action menu as opposed to procedural questions
+- [x] Implement dynamic action menu as opposed to procedural questions
 - [ ] Add some sort of win condition (day limit, financial goal, etc.)
 - [ ] With win condition add some sort of score (number of days, net worth, earnings)
 - [ ] Add a log of past stock prices or purchases

@@ -1,3 +1,4 @@
+import java.util.Objects;
 import java.util.Scanner;
 import java.util.Random;
 
@@ -14,6 +15,7 @@ public class Main {
         int stockPrice = 50;
         int stockOwned = 0;
         int day = 1;
+        boolean skip = false;
 
         // Getting username from input
         System.out.println("Enter username: ");
@@ -31,29 +33,45 @@ public class Main {
             System.out.println("Stock value: " + stockOwned * stockPrice);
             System.out.println("Stock Price on day " + day + ": " + stockPrice);
 
-            //Stock buying call
-            System.out.println("Number of stock to buy: ");
-            int stockBuy = scanner.nextInt();
-            if (balance >= stockPrice * stockBuy){
-                stockOwned += stockBuy;
-                balance -= stockBuy * stockPrice;
+            //Command loop
+            while (!skip) {
+                System.out.println("What would you like to do? (skip, buy, sell, exit, help): ");
+                String command = scanner.next();
+
+                if (Objects.equals(command, "buy")) {
+                    //Stock buying call
+                    System.out.println("Number of stock to buy: ");
+                    int stockBuy = scanner.nextInt();
+                    if (stockBuy > 0 && balance >= stockPrice * stockBuy) {
+                        stockOwned += stockBuy;
+                        balance -= stockBuy * stockPrice;
+                    }
+                } else if (Objects.equals(command, "sell")) {
+                    //Stock selling call
+                    System.out.println("Number of stock to sell: ");
+                    int stockSell = scanner.nextInt();
+                    if (stockOwned >= stockSell) {
+                        stockOwned -= stockSell;
+                        balance += stockSell * stockPrice;
+                    }
+                } else if (Objects.equals(command, "exit")) {
+                    //Game exit option, also important for ending the while loop
+                    System.out.println("Exit game? (Y or N): ");
+                    String tempEnd = scanner.next();
+                    if (tempEnd.equalsIgnoreCase("y")) {
+                        System.out.println("Thanks for playing!");
+                        endProgram = true;
+                        skip = true;
+                    }
+                } else if (Objects.equals(command, "help")) {
+                    System.out.println("Current Commands: buy, sell, exit, help, skip");
+                } else if (Objects.equals(command, "skip")) {
+                    skip = true;
+                }
             }
 
-            //Stock selling call
-            System.out.println("Number of stock to sell: ");
-            int stockSell = scanner.nextInt();
-            if (stockOwned >= stockSell){
-                stockOwned -= stockSell;
-                balance += stockSell * stockPrice;
-            }
-
-            //Game exit option, also important for ending the while loop
-            System.out.println("Exit game? (Y or N): ");
-            String tempEnd = scanner.next();
-            if (tempEnd.equalsIgnoreCase("y")){
-                System.out.println("Thanks for playing!");
-                endProgram = true;
-            }
+            //Updates skip to make sure it asks what the player wants to do on the next day
+            skip = false;
             //Increments the day at the end of the loop to be ready for the next iteration
             day += 1;
         }
