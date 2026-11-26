@@ -44,7 +44,7 @@ public class StockGame {
 
 
             // Current day loop
-            while (!dayFinished && !endProgram) {
+            while (!dayFinished) {
 
                 System.out.println("What would you like to do? (skip, buy, sell, exit, help): ");
                 String command = scanner.next();
@@ -152,8 +152,23 @@ public class StockGame {
     }
 
     private void displayFinalSummary() {
+        // Gets net worth
+        int netWorth = calculateNetWorth();
         // Displays final performance
-        System.out.println("Your final portfolio worth is: $" + calculateNetWorth());
+        System.out.println("Your final portfolio worth is: $" + netWorth);
+
+        // Calculates the return
+        double finalReturn = ((double) (netWorth - STARTING_BALANCE) / STARTING_BALANCE) * 100;
+
+        // Gives message depending on a positive, negative, or neutral return
+        if (finalReturn > 0) {
+            System.out.printf("You gained %.2f%% on your money.%n", finalReturn);
+        } else if (finalReturn < 0) {
+            System.out.printf("Your money went down by %.2f%%.%n", Math.abs(finalReturn));
+        } else {
+            System.out.println("Your money stayed the exact same, no gain or loss.");
+        }
+
     }
 
     private void displayHelp() {
